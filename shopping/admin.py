@@ -23,7 +23,6 @@ class ShoppingListAdmin(admin.ModelAdmin):
 @admin.register(ShoppingItem)
 class ShoppingItemAdmin(admin.ModelAdmin):
     list_display = (
-        'is_deleted',
         'uuid',
         'created_at',
         'updated_at',
@@ -31,6 +30,8 @@ class ShoppingItemAdmin(admin.ModelAdmin):
         'name',
         'quantity',
         'purchased',
+        'is_deleted',
+
     )
     list_filter = (
         'is_deleted',

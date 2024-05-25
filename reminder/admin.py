@@ -7,7 +7,6 @@ from reminder.models import  Reminder
 @admin.register(Reminder)
 class ReminderAdmin(admin.ModelAdmin):
     list_display = (
-        'is_deleted',
         'uuid',
         'created_at',
         'updated_at',
@@ -15,6 +14,8 @@ class ReminderAdmin(admin.ModelAdmin):
         'title',
         'description',
         'remind_at',
+        'is_deleted',
+
     )
     list_filter = (
         'is_deleted',

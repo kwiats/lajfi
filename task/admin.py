@@ -7,7 +7,6 @@ from task.models import Task
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = (
-        'is_deleted',
         'uuid',
         'created_at',
         'updated_at',
@@ -17,6 +16,8 @@ class TaskAdmin(admin.ModelAdmin):
         'priority',
         'due_date',
         'completed',
+        'is_deleted',
+
     )
     list_filter = (
         'is_deleted',

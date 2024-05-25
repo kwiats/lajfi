@@ -8,7 +8,6 @@ from schedule.models import  Event
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = (
-        'is_deleted',
         'uuid',
         'created_at',
         'updated_at',
@@ -17,6 +16,8 @@ class EventAdmin(admin.ModelAdmin):
         'description',
         'start_time',
         'end_time',
+        'is_deleted',
+
     )
     list_filter = (
         'is_deleted',

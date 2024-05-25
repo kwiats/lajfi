@@ -7,7 +7,6 @@ from notes.models import Notes
 @admin.register(Notes)
 class NotesAdmin(admin.ModelAdmin):
     list_display = (
-        'is_deleted',
         'uuid',
         'created_at',
         'updated_at',
@@ -15,6 +14,8 @@ class NotesAdmin(admin.ModelAdmin):
         'content',
         'user',
         'status',
+        'is_deleted',
+
     )
     list_filter = (
         'is_deleted',
