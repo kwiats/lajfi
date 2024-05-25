@@ -20,6 +20,11 @@ class Task(BaseModel):
     def __str__(self):
         return self.title
 
+    def save(
+            self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        super().save(force_insert, force_update, using, update_fields)
+        self.check_achievements()
 
     def check_achievements(self):
         user = self.user
