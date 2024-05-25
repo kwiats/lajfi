@@ -62,6 +62,7 @@ APPLICATIONS = [
     "motivation",
     "reminder",
     "task",
+    "location",
 ]
 INSTALLED_APPS = [
                      "django.contrib.admin",
