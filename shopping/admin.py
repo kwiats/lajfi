@@ -7,12 +7,13 @@ from .models import ShoppingList, ShoppingItem
 @admin.register(ShoppingList)
 class ShoppingListAdmin(admin.ModelAdmin):
     list_display = (
-        'is_deleted',
         'uuid',
         'created_at',
         'updated_at',
         'name',
         'user',
+        'is_deleted',
+
     )
     list_filter = ('is_deleted', 'created_at', 'updated_at', 'user')
     raw_id_fields = ('items',)
