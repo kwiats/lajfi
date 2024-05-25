@@ -40,6 +40,7 @@ services:
       - DATABASE_PASS=mypassword
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
+      - CELERY_BROKER_REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app
     ports:
@@ -59,6 +60,7 @@ services:
       - DATABASE_PASS=mypassword
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
+      - CELERY_BROKER_REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app
     depends_on:
@@ -77,6 +79,7 @@ services:
       - DATABASE_PASS=mypassword
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
+      - CELERY_BROKER_REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app
     depends_on:

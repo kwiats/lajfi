@@ -163,7 +163,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ORIGIN_WHITELIST = ('127.0.0.1', 'localhost', '0.0.0.0', 'host.notbug.pl')
+CORS_ORIGIN_WHITELIST = ('127.0.0.1', 'localhost', '0.0.0.0')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://127.0.0.1:4200",
