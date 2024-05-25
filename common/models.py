@@ -108,3 +108,10 @@ class ScheduledEmail(BaseModel):
         )
         email_log.save()
         email_log.send_email()
+        if email_log.status == 'success':
+            self.status = 'sent'
+        else:
+            self.status = 'failed'
+            self.error_message = email_log.error_message
+
+        self.save()
