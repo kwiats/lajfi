@@ -19,6 +19,8 @@ from celery.schedules import crontab
 BASE_DIR = Path(__file__).resolve().parent.parent
 CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH', '/usr/lib/libgdal.so')
+# GEOS_LIBRARY_PATH = os.getenv('GEOS_LIBRARY_PATH', '/usr/lib/libgeos_c.so')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -38,7 +40,7 @@ APPLICATIONS = [
     "shopping",
     "motivation",
     "reminder",
-    "task"
+    "task",
 ]
 INSTALLED_APPS = [
                      "django.contrib.admin",

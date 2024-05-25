@@ -2,8 +2,8 @@ import logging
 
 from celery import shared_task
 from django.conf import settings
-from django.core.mail import send_mail
 
+from common.tasks import send_email_task
 from motivation.models import UserAchievement
 
 logger = logging.getLogger(__name__)
@@ -24,12 +24,11 @@ def check_new_achievements():
             logger.info(f"Processing achievement '{achievement.title}' for user '{user.username}'.")
 
             try:
-                send_mail(
+                send_email_task.delay(
                     'Congratulations on your achievement!',
                     f'Hi {user.username},\n\nCongratulations on earning the "{achievement.title}" achievement!\n\nKeep up the great work!\n\nBest regards,\nYour Team',
                     settings.DEFAULT_FROM_EMAIL,
                     [user.email],
-                    fail_silently=False,
                 )
                 user_achievement.is_notified = True
                 user_achievement.save()

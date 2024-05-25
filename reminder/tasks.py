@@ -4,7 +4,7 @@ from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
-
+from common.tasks import send_email_task
 from reminder.models import Reminder
 
 logger = logging.getLogger(__name__)
@@ -26,12 +26,11 @@ def check_and_send_reminders():
         logger.info(f"Processing reminder '{title}' for user '{user.username}'.")
 
         try:
-            send_mail(
+            send_email_task.delay(
                 f'Reminder: {title}',
                 f'Hi {user.username},\n\nThis is a reminder for: {title}.\n\n{description}\n\nBest regards,\nYour Team',
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
-                fail_silently=False,
             )
             reminder.is_deleted = True
             logger.info(f"Successfully sent reminder '{title}' to user '{user.username}'.")
