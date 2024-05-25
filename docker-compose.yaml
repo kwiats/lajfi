@@ -1,0 +1,89 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    restart: always
+
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+    restart: always
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_NAME=mydatabase
+      - DATABASE_USER=myuser
+      - DATABASE_PASS=mypassword
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    restart: always
+
+  celery-worker:
+    build:
+      context: .
+    command: celery -A core worker --loglevel=info
+    environment:
+      - DATABASE_NAME=mydatabase
+      - DATABASE_USER=myuser
+      - DATABASE_PASS=mypassword
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - web
+      - postgres
+    restart: always
+
+  celery-beat:
+    build:
+      context: .
+    command: celery -A core beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    environment:
+      - DATABASE_NAME=mydatabase
+      - DATABASE_USER=myuser
+      - DATABASE_PASS=mypassword
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - web
+      - postgres
+    restart: always
+
+volumes:
+  postgres_data:
