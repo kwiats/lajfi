@@ -2,7 +2,11 @@
 from django.contrib import admin
 
 from common.models import EmailLog, ScheduledEmail
+def send_email_action(modeladmin, request, queryset):
+    for email_instance in queryset:
+        email_instance.send_email()
 
+send_email_action.short_description = "Send selected emails"
 
 @admin.register(EmailLog)
 class EmailLogAdmin(admin.ModelAdmin):
@@ -21,6 +25,7 @@ class EmailLogAdmin(admin.ModelAdmin):
     )
     list_filter = ('is_deleted', 'created_at', 'updated_at', 'sent_at')
     date_hierarchy = 'created_at'
+    actions = [send_email_action]  # Register the action
 
 
 @admin.register(ScheduledEmail)
@@ -46,3 +51,4 @@ class ScheduledEmailAdmin(admin.ModelAdmin):
         'scheduled_time',
     )
     date_hierarchy = 'created_at'
+    actions = [send_email_action]  # Register the action
