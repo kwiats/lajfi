@@ -1,9 +1,9 @@
 import logging
 
 from celery import shared_task
-from django.core.mail import send_mail
+from django.utils import timezone
 
-from common.models import EmailLog
+from common.models import EmailLog, ScheduledEmail
 
 logger = logging.getLogger(__name__)
 
@@ -22,3 +22,13 @@ def send_email_task(subject, message, from_email, recipient_list):
     email_log.save()
 
     email_log.send_email()
+
+
+@shared_task
+def send_scheduled_emails():
+    logger.info(f"Starting send_scheduled_emails")
+
+    now = timezone.now()
+    scheduled_emails = ScheduledEmail.objects.filter(status='pending', scheduled_time__lte=now)
+    for scheduled_email in scheduled_emails:
+        scheduled_email.send_email()

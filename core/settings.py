@@ -242,6 +242,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'motivation.tasks.check_new_achievements',
         'schedule': crontab(minute='*/1'),
     },
+    'send-scheduled-emails-every-minute': {
+        'task': 'common.tasks.send_scheduled_emails',
+        'schedule': crontab(minute='*/1'),
+    },
 }
 SIMPLE_HISTORY_FILEFIELD_TO_CHARFIELD = True
 

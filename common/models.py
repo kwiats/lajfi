@@ -81,3 +81,30 @@ class EmailLog(BaseModel):
             logger.error(f"Error sending email with subject '{self.subject}' to {self.recipient_list}: {e}")
 
         self.save()
+
+
+class ScheduledEmail(BaseModel):
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    from_email = models.EmailField()
+    recipient_list = models.TextField()
+    scheduled_time = models.DateTimeField()
+    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('sent', 'Sent'), ('failed', 'Failed')],
+                              default='pending')
+    error_message = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.subject} to {self.recipient_list} at {self.scheduled_time}"
+
+    def send_email(self):
+        logger.info(f"Starting send_email with subject '{self.subject}' to recipients: {self.recipient_list}")
+
+        email_log = EmailLog(
+            subject=self.subject,
+            message=self.message,
+            from_email=self.from_email,
+            recipient_list=self.recipient_list,
+            status='pending'
+        )
+        email_log.save()
+        email_log.send_email()
