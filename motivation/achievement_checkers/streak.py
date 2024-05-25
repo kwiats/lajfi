@@ -11,5 +11,5 @@ def check_streak_achievement(user, achievement, conditions):
         start_date = today - datetime.timedelta(days=streak_days)
         tasks_completed = Task.objects.filter(user=user, completed=True, due_date__range=[start_date, today]).count()
         if tasks_completed >= streak_days:
-            if not UserAchievement.objects.filter(user=user, achievement=achievement, is_awarded=True).exists():
-                UserAchievement.objects.create(user=user, achievement=achievement, is_awarded=True)
+            if not UserAchievement.objects.filter(user=user, achievement=achievement).exists():
+                UserAchievement.objects.create(user=user, achievement=achievement)

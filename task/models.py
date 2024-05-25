@@ -20,6 +20,7 @@ class Task(BaseModel):
     def __str__(self):
         return self.title
 
+
     def check_achievements(self):
         user = self.user
         achievements = Achievement.objects.all()

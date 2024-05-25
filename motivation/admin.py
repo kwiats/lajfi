@@ -22,18 +22,14 @@ class AchievementAdmin(admin.ModelAdmin):
 @admin.register(UserAchievement)
 class UserAchievementAdmin(admin.ModelAdmin):
     list_display = (
-        'is_deleted',
         'uuid',
-        'created_at',
-        'updated_at',
         'achievement',
         'user',
         'date_earned',
+        'is_notified',
     )
     list_filter = (
         'is_deleted',
-        'created_at',
-        'updated_at',
         'achievement',
         'user',
         'date_earned',
