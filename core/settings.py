@@ -13,6 +13,8 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -117,9 +119,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': os.getenv('DATABASE_HOST', 'localhost'),
         'PORT': os.getenv('DATABASE_PORT', 5433),
-        'NAME':  os.getenv('DATABASE_NAME', 'mydatabase'),
-        'USER':  os.getenv('DATABASE_USER', 'myuser'),
-        'PASSWORD':  os.getenv('DATABASE_PASSWORD', 'mypassword'),
+        'NAME': os.getenv('DATABASE_NAME', 'mydatabase'),
+        'USER': os.getenv('DATABASE_USER', 'myuser'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'mypassword'),
     },
 }
 # Password validation
@@ -208,13 +210,21 @@ CELERY_RESULT_BACKEND = "django-db"
 CELERY_RESULT_EXTENDED = True
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-
+CELERY_BEAT_SCHEDULE = {
+    'check-and-send-reminders-every-minute': {
+        'task': 'reminder.tasks.check_and_send_reminders',
+        'schedule': crontab(minute='*/1'),
+    },
+    'check-new-achievements-every-minute': {
+        'task': 'motivation.tasks.check_new_achievements',
+        'schedule': crontab(minute='*/1'),
+    },
+}
 SIMPLE_HISTORY_FILEFIELD_TO_CHARFIELD = True
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=os.getenv('ACCESS_TOKEN_LIFETIME_HOURS', 5)),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=os.getenv('REFRESH_TOKEN_LIFETIME_DAYS', 1)),
 }
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
