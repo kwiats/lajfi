@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 const App: React.FC = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="lajfi">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="TaskList" component={TaskList} />
         <Stack.Screen name="EventList" component={EventList} />
