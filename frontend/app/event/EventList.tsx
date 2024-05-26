@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
-import { Event } from '../../api/types';
-import { getEvents, createEvent } from '../../api/common/services/EventService';
+import { Button, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Event } from '~/api/types';
+import { createEvent, getEvents } from '~/api/common/services/EventService';
+import CalendarComponent from '~/components/CalendarComponent';
 
 const EventList: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -36,7 +37,10 @@ const EventList: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Button title="Add Event" onPress={handleCreateEvent} />
+      <CalendarComponent />
+      <TouchableOpacity style={styles.addButton} onPress={handleCreateEvent}>
+        <Text style={styles.addButtonText}>Add Event</Text>
+      </TouchableOpacity>
       <FlatList
         data={events}
         keyExtractor={(item) => item.id.toString()}
@@ -55,14 +59,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: '#f8f9fa',
   },
   eventItem: {
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    marginVertical: 8,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   title: {
     fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  addButton: {
+    backgroundColor: '#007bff',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  addButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });

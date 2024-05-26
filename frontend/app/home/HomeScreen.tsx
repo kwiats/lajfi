@@ -2,7 +2,8 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons'; // Import ikonek
+import { Ionicons } from '@expo/vector-icons';
+import FloatingActionButton from "~/components/FloatingActionButton"; // Import ikonek
 
 type RootStackParamList = {
   Home: undefined;
@@ -21,6 +22,7 @@ type Props = {
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      <FloatingActionButton />
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TaskList')}>
         <Ionicons name="list-outline" size={20} color="#fff" style={styles.icon} />
         <Text style={styles.buttonText}>ToDo Lista</Text>
